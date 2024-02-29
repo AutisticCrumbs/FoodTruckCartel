@@ -7,7 +7,7 @@ const JUMP_VELOCITY = 4.5
 @onready var hand := $Camera3D/Hand
 
 var picked_object
-var pull_power = 5
+var pull_power = 10
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 

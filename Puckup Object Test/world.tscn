@@ -1,35 +1,39 @@
-[gd_scene load_steps=9 format=3 uid="uid://dhmcchxwscna2"]
+[gd_scene load_steps=10 format=3 uid="uid://dhmcchxwscna2"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_y82a8"]
 [ext_resource type="PackedScene" uid="uid://cywlto4wavxy4" path="res://player.tscn" id="2_16m8d"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_pyhme"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tf6gs"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
 
-[sub_resource type="Sky" id="Sky_8b0fi"]
-sky_material = SubResource("ProceduralSkyMaterial_pyhme")
+[sub_resource type="Sky" id="Sky_24hma"]
+sky_material = SubResource("ProceduralSkyMaterial_tf6gs")
 
-[sub_resource type="Environment" id="Environment_m5ov4"]
+[sub_resource type="Environment" id="Environment_pvcvo"]
 background_mode = 2
-sky = SubResource("Sky_8b0fi")
+sky = SubResource("Sky_24hma")
 tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ogc1i"]
 albedo_color = Color(0.717647, 0.247059, 0.956863, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_fupkd"]
-size = Vector3(0.5, 0.5, 0.5)
+[sub_resource type="SphereMesh" id="SphereMesh_1yxcs"]
+radius = 0.25
+height = 0.5
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_gtou5"]
-size = Vector3(0.5, 0.5, 0.5)
+[sub_resource type="SphereShape3D" id="SphereShape3D_n14l7"]
+radius = 0.25
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ips4a"]
+size = Vector3(0.9, 0.49, 0.9)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_y82a8")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_m5ov4")
+environment = SubResource("Environment_pvcvo")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -37,22 +41,46 @@ shadow_enabled = true
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
 use_collision = true
-size = Vector3(10, 1.1, 10)
+size = Vector3(20, 1, 20)
 
 [node name="Cut" type="CSGBox3D" parent="CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
 operation = 2
-size = Vector3(9.9, 1, 9.9)
+size = Vector3(19.99, 0.9, 19.99)
 
 [node name="Player" parent="." instance=ExtResource("2_16m8d")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
 
-[node name="Block" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -3)
+[node name="Ball" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -3)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Block"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ball"]
 material_override = SubResource("StandardMaterial3D_ogc1i")
-mesh = SubResource("BoxMesh_fupkd")
+mesh = SubResource("SphereMesh_1yxcs")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Block"]
-shape = SubResource("BoxShape3D_gtou5")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball"]
+shape = SubResource("SphereShape3D_n14l7")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 15, 0)
+light_energy = 12.0
+spot_range = 1e+12
+spot_angle = 90.0
+
+[node name="Totally Real Grilll" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -5)
+use_collision = true
+size = Vector3(1.5, 1, 1.5)
+
+[node name="Cut" type="CSGBox3D" parent="Totally Real Grilll"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+operation = 2
+size = Vector3(1, 0.5, 1)
+
+[node name="Cook" type="Area3D" parent="Totally Real Grilll"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Totally Real Grilll/Cook"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("BoxShape3D_ips4a")
+
+[connection signal="body_entered" from="Totally Real Grilll/Cook" to="." method="_on_cook_body_entered"]
