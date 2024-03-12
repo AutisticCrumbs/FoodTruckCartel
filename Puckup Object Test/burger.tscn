@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://bh7qj8me3m1g"]
+
+[ext_resource type="Script" path="res://burger.gd" id="1_f1iie"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ptexi"]
+albedo_color = Color(0.968627, 0.447059, 0.517647, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_e0y44"]
+radius = 0.25
+height = 0.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_7xpp3"]
+radius = 0.25
+
+[node name="Burger" type="RigidBody3D" groups=["burger"]]
+script = ExtResource("1_f1iie")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_ptexi")
+mesh = SubResource("SphereMesh_e0y44")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_7xpp3")
+
+[node name="Cook Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Cook Timer" to="." method="_on_cook_timer_timeout"]
