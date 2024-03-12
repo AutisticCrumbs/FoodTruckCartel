@@ -67,4 +67,10 @@ shape = SubResource("BoxShape3D_ips4a")
 [node name="Burger" parent="." instance=ExtResource("3_7b8mu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -5)
 
+[node name="Burger2" parent="." instance=ExtResource("3_7b8mu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -5)
+
+[node name="Burger3" parent="." instance=ExtResource("3_7b8mu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -5)
+
 [connection signal="body_entered" from="Totally Real Grilll/Stovetop" to="." method="_on_stovetop_body_entered"]
