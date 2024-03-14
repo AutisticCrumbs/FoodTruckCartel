@@ -1,29 +1,50 @@
-[gd_scene load_steps=5 format=3 uid="uid://bh7qj8me3m1g"]
+[gd_scene load_steps=8 format=3 uid="uid://cpx47g642cxuq"]
 
-[ext_resource type="Script" path="res://burger.gd" id="1_f1iie"]
+[sub_resource type="GDScript" id="GDScript_u2x1p"]
+script/source = "extends RigidBody3D
+"
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ptexi"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_up6mj"]
+albedo_color = Color(0.588235, 0.34902, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_r1xmg"]
 resource_local_to_scene = true
-albedo_color = Color(0.968627, 0.447059, 0.517647, 1)
+size = Vector3(0.75, 0.25, 0.75)
 
-[sub_resource type="SphereMesh" id="SphereMesh_e0y44"]
-radius = 0.25
-height = 0.5
+[sub_resource type="BoxShape3D" id="BoxShape3D_j4s7e"]
+size = Vector3(0.75, 0.25, 0.75)
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_7xpp3"]
-radius = 0.25
+[sub_resource type="BoxShape3D" id="BoxShape3D_pis6v"]
+resource_local_to_scene = true
+size = Vector3(0.7, 0.5, 0.7)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xr01h"]
+resource_local_to_scene = true
+albedo_color = Color(0.545098, 0.270588, 0.0745098, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ky4pw"]
+resource_local_to_scene = true
+size = Vector3(0.5, 0.1, 0.5)
 
 [node name="Burger" type="RigidBody3D" groups=["burger"]]
-script = ExtResource("1_f1iie")
+script = SubResource("GDScript_u2x1p")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-material_override = SubResource("StandardMaterial3D_ptexi")
-mesh = SubResource("SphereMesh_e0y44")
+material_override = SubResource("StandardMaterial3D_up6mj")
+mesh = SubResource("BoxMesh_r1xmg")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_7xpp3")
+shape = SubResource("BoxShape3D_j4s7e")
 
-[node name="Cook Timer" type="Timer" parent="."]
-one_shot = true
+[node name="Connect Point (Top)" type="Area3D" parent="."]
 
-[connection signal="timeout" from="Cook Timer" to="." method="_on_cook_timer_timeout"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Connect Point (Top)"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.376, 0)
+shape = SubResource("BoxShape3D_pis6v")
+
+[node name="Burger Patty" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.175, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_xr01h")
+mesh = SubResource("BoxMesh_ky4pw")
+skeleton = NodePath("")
