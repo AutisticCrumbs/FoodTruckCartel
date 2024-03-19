@@ -5,6 +5,9 @@ const JUMP_VELOCITY = 4.5
 
 @onready var interaction := $Camera3D/Interaction
 @onready var hand := $Camera3D/Hand
+@onready var burger = $/root/World/Burger
+@onready var patty = $/root/World/Patty
+@onready var burger_patty = $"/root/World/Burger/Burger Patty"
 
 var picked_object
 var pull_power = 10
@@ -21,9 +24,16 @@ func _input(event):
 		$Camera3D.rotation.x = clamp($Camera3D.rotation.x,deg_to_rad(-60), deg_to_rad(60))
 	
 	if Input.is_action_just_pressed("left_click"):
+		var collider = interaction.get_collider()
 		if picked_object == null:
 			pick_object()
-		elif picked_object != null:
+		elif picked_object != null and collider != null and collider is RigidBody3D:
+			if picked_object.food_cooked == true:
+				patty.queue_free()
+				burger_patty.show()
+		
+	if Input.is_action_just_pressed("right_click"):
+		if picked_object != null:
 			drop_object()
 
 func _physics_process(delta):
@@ -53,7 +63,9 @@ func pick_object():
 	var collider = interaction.get_collider()
 	if collider != null and collider is RigidBody3D:
 		picked_object = collider
+		picked_object.hide()
 
 func drop_object():
 	if picked_object != null:
+		picked_object.show()
 		picked_object = null

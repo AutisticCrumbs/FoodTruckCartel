@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bh7qj8me3m1g"]
+[gd_scene load_steps=5 format=3 uid="uid://bh7qj8me3m1g"]
 
 [ext_resource type="Script" path="res://patty.gd" id="1_awr47"]
 
@@ -12,11 +12,8 @@ size = Vector3(0.5, 0.25, 0.5)
 [sub_resource type="BoxShape3D" id="BoxShape3D_62fcx"]
 size = Vector3(0.5, 0.25, 0.5)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_pw6ga"]
-resource_local_to_scene = true
-size = Vector3(0.4, 0.1, 0.4)
-
 [node name="Patty" type="RigidBody3D" groups=["patty"]]
+inertia = Vector3(9.22337e+18, 9.22337e+18, 9.22337e+18)
 script = ExtResource("1_awr47")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -28,11 +25,5 @@ shape = SubResource("BoxShape3D_62fcx")
 
 [node name="Cook Timer" type="Timer" parent="."]
 one_shot = true
-
-[node name="Connect Point (Bottom)" type="Area3D" parent="."]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Connect Point (Bottom)"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
-shape = SubResource("BoxShape3D_pw6ga")
 
 [connection signal="timeout" from="Cook Timer" to="." method="_on_cook_timer_timeout"]
