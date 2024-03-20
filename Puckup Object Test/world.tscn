@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://dhmcchxwscna2"]
+[gd_scene load_steps=22 format=3 uid="uid://dhmcchxwscna2"]
 
 [ext_resource type="Script" path="res://world.gd" id="1_y82a8"]
 [ext_resource type="PackedScene" uid="uid://cywlto4wavxy4" path="res://player.tscn" id="2_16m8d"]
 [ext_resource type="PackedScene" uid="uid://bh7qj8me3m1g" path="res://patty.tscn" id="3_7b8mu"]
 [ext_resource type="PackedScene" uid="uid://cpx47g642cxuq" path="res://burger.tscn" id="4_8tc1m"]
+[ext_resource type="PackedScene" uid="uid://dsg2d470y3vrp" path="res://lettuce.tscn" id="5_ojxko"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_tf6gs"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -18,8 +19,45 @@ sky = SubResource("Sky_24hma")
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2n0xb"]
+albedo_color = Color(0.215686, 0.701961, 0.858824, 1)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_ips4a"]
 size = Vector3(0.9, 0.4, 0.9)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fppbo"]
+albedo_color = Color(0.756863, 0.152941, 0.631373, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7ionj"]
+size = Vector3(0.75, 0.5, 0.75)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_afsj1"]
+size = Vector3(0.75, 0.5, 0.75)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i0gg4"]
+size = Vector3(0.75, 0.1, 0.75)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2xitb"]
+resource_local_to_scene = true
+size = Vector3(0.75, 0.25, 0.75)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dn687"]
+resource_local_to_scene = true
+albedo_color = Color(0.545098, 0.270588, 0.0745098, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_nohj6"]
+resource_local_to_scene = true
+size = Vector3(0.5, 0.1, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mnxte"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_i7crn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4drvs"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hs1tx"]
+size = Vector3(1, 0.1, 1)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_y82a8")
@@ -53,6 +91,7 @@ spot_angle = 90.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -5)
 use_collision = true
 size = Vector3(1.5, 1, 1.5)
+material = SubResource("StandardMaterial3D_2n0xb")
 
 [node name="Cut" type="CSGBox3D" parent="Totally Real Grilll"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
@@ -65,10 +104,65 @@ size = Vector3(1, 0.5, 1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 shape = SubResource("BoxShape3D_ips4a")
 
+[node name="Knife" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0.60778, -1.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Knife"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -0.75, 0)
+material_override = SubResource("StandardMaterial3D_fppbo")
+mesh = SubResource("BoxMesh_7ionj")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Knife"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 0)
+shape = SubResource("BoxShape3D_afsj1")
+
+[node name="Cutting Area" type="Area3D" parent="Knife"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Knife/Cutting Area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.44, 0)
+shape = SubResource("BoxShape3D_i0gg4")
+
 [node name="Burger" parent="." instance=ExtResource("4_8tc1m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -5)
+
+[node name="MeshInstance3D" parent="Burger" index="0"]
+mesh = SubResource("BoxMesh_2xitb")
+
+[node name="Burger Patty" parent="Burger" index="2"]
+material_override = SubResource("StandardMaterial3D_dn687")
+mesh = SubResource("BoxMesh_nohj6")
 
 [node name="Patty" parent="." instance=ExtResource("3_7b8mu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
 
+[node name="Lettuce" parent="." instance=ExtResource("5_ojxko")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.901362, -2.17986)
+
+[node name="Ingrediens" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ingrediens"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)
+material_override = SubResource("StandardMaterial3D_mnxte")
+mesh = SubResource("BoxMesh_i7crn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ingrediens"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7)
+shape = SubResource("BoxShape3D_4drvs")
+
+[node name="Label3D" type="Label3D" parent="Ingrediens"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.127606, -6.48055)
+text = "CHECK INGREDIENTS"
+
+[node name="Ingredient Checker" type="Area3D" parent="Ingrediens"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ingrediens/Ingredient Checker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, -7)
+shape = SubResource("BoxShape3D_hs1tx")
+
 [connection signal="body_entered" from="Totally Real Grilll/Stovetop" to="." method="_on_stovetop_body_entered"]
+[connection signal="body_entered" from="Knife/Cutting Area" to="." method="_on_cutting_area_body_entered"]
+[connection signal="body_entered" from="Ingrediens/Ingredient Checker" to="." method="_on_ingredient_checker_body_entered"]
+
+[editable path="Burger"]

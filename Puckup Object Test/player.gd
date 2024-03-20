@@ -8,6 +8,8 @@ const JUMP_VELOCITY = 4.5
 @onready var burger = $/root/World/Burger
 @onready var patty = $/root/World/Patty
 @onready var burger_patty = $"/root/World/Burger/Burger Patty"
+@onready var lettuce = $"/root/World/Lettuce"
+@onready var cut_lettuce = $"/root/World/Burger/Cut Lettuce"
 
 var picked_object
 var pull_power = 10
@@ -28,9 +30,14 @@ func _input(event):
 		if picked_object == null:
 			pick_object()
 		elif picked_object != null and collider != null and collider is RigidBody3D:
-			if picked_object.food_cooked == true:
-				patty.queue_free()
-				burger_patty.show()
+			if picked_object == patty:
+				if picked_object.cooked_patty == true:
+					patty.queue_free()
+					burger_patty.show()
+			if picked_object == lettuce:
+				if picked_object.cutted_lettuce == true:
+					lettuce.queue_free()
+					cut_lettuce.show()
 		
 	if Input.is_action_just_pressed("right_click"):
 		if picked_object != null:
@@ -63,9 +70,7 @@ func pick_object():
 	var collider = interaction.get_collider()
 	if collider != null and collider is RigidBody3D:
 		picked_object = collider
-		picked_object.hide()
 
 func drop_object():
 	if picked_object != null:
-		picked_object.show()
 		picked_object = null

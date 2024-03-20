@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cpx47g642cxuq"]
+[gd_scene load_steps=9 format=3 uid="uid://cpx47g642cxuq"]
 
 [sub_resource type="GDScript" id="GDScript_u2x1p"]
 script/source = "extends RigidBody3D
@@ -22,6 +22,12 @@ albedo_color = Color(0.545098, 0.270588, 0.0745098, 1)
 resource_local_to_scene = true
 size = Vector3(0.5, 0.1, 0.5)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ow5fh"]
+albedo_color = Color(0.298039, 0.737255, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dr15c"]
+size = Vector3(0.4, 0.1, 0.4)
+
 [node name="Burger" type="RigidBody3D" groups=["burger"]]
 inertia = Vector3(9.22337e+18, 9.22337e+18, 9.22337e+18)
 script = SubResource("GDScript_u2x1p")
@@ -39,3 +45,9 @@ visible = false
 material_override = SubResource("StandardMaterial3D_xr01h")
 mesh = SubResource("BoxMesh_ky4pw")
 skeleton = NodePath("")
+
+[node name="Cut Lettuce" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24657, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_ow5fh")
+mesh = SubResource("BoxMesh_dr15c")
