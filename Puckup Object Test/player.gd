@@ -7,9 +7,17 @@ const JUMP_VELOCITY = 4.5
 @onready var hand := $Camera3D/Hand
 @onready var burger = $/root/World/Burger
 @onready var patty = $/root/World/Patty
-@onready var burger_patty = $"/root/World/Burger/Burger Patty"
+@onready var burger_patty = $"/root/World/Burger/BurgerPatty"
 @onready var lettuce = $"/root/World/Lettuce"
-@onready var cut_lettuce = $"/root/World/Burger/Cut Lettuce"
+@onready var cut_lettuce = $"/root/World/Burger/CutLettuce"
+@onready var tomato = $"/root/World/Tomato"
+@onready var cut_tomato = $"/root/World/Burger/CutTomato"
+@onready var cheese = $"/root/World/Cheese"
+@onready var cut_cheese = $"/root/World/Burger/CutCheese"
+@onready var ketchup_bottle = $"/root/World/KetchupBottle"
+@onready var ketchup = $"/root/World/Burger/Ketchup"
+@onready var top_bun = $"/root/World/TopBun"
+@onready var burger_bun = $"/root/World/Burger/TopBun"
 
 var picked_object
 var pull_power = 10
@@ -38,6 +46,19 @@ func _input(event):
 				if picked_object.cutted_lettuce == true:
 					lettuce.queue_free()
 					cut_lettuce.show()
+			if picked_object == tomato:
+				if picked_object.cutted_tomato == true:
+					tomato.queue_free()
+					cut_tomato.show()
+			if picked_object == cheese:
+				if picked_object.cutted_cheese == true:
+					cheese.queue_free()
+					cut_cheese.show()
+			if picked_object == ketchup_bottle:
+				ketchup.show()
+			if picked_object == top_bun:
+				top_bun.queue_free()
+				burger_bun.show()
 		
 	if Input.is_action_just_pressed("right_click"):
 		if picked_object != null:

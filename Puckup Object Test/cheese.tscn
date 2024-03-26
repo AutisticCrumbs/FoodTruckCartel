@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=3 uid="uid://c6fsqnpw7rwme"]
+
+[ext_resource type="Script" path="res://cheese.gd" id="1_03b7w"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jcrhu"]
+albedo_color = Color(1, 0.631373, 0.137255, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ab8nt"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mdwcj"]
+albedo_color = Color(1, 0.631373, 0.137255, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_b54oa"]
+size = Vector3(0.5, 0.05, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_bdxkk"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="Cheese" type="RigidBody3D"]
+lock_rotation = true
+script = ExtResource("1_03b7w")
+
+[node name="Uncut Cheese" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_jcrhu")
+mesh = SubResource("BoxMesh_ab8nt")
+
+[node name="Cut Cheese" type="MeshInstance3D" parent="."]
+visible = false
+material_override = SubResource("StandardMaterial3D_mdwcj")
+mesh = SubResource("BoxMesh_b54oa")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_bdxkk")

@@ -6,7 +6,7 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nm54x"]
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" groups=["player"]]
 script = ExtResource("1_sh6bp")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
@@ -24,3 +24,13 @@ target_position = Vector3(0, 0, -5)
 
 [node name="Hand" type="Marker3D" parent="Camera3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.986589, 0, -0.972304)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="Order" type="VBoxContainer" parent="Control"]
+offset_right = 40.0
+offset_bottom = 40.0

@@ -21,7 +21,7 @@ albedo_color = Color(0.298039, 0.737255, 0, 1)
 size = Vector3(0.4, 0.15, 0.4)
 
 [node name="Lettuce" type="RigidBody3D"]
-inertia = Vector3(9.22337e+18, 9.22337e+18, 9.22337e+18)
+lock_rotation = true
 script = ExtResource("1_g3kou")
 
 [node name="Raw Lettuce" type="MeshInstance3D" parent="."]

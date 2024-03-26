@@ -1,7 +1,89 @@
-[gd_scene load_steps=9 format=3 uid="uid://cpx47g642cxuq"]
+[gd_scene load_steps=17 format=3 uid="uid://cpx47g642cxuq"]
 
 [sub_resource type="GDScript" id="GDScript_u2x1p"]
 script/source = "extends RigidBody3D
+
+#@onready var HUD_order = $/root/World/Player/Control/Order
+
+signal burger_lettuce
+signal burger_tomato
+signal burger_cheese
+signal burger_ketchup
+
+#var patty_label := Label.new()
+#var lettuce_label := Label.new()
+#var tomato_label := Label.new()
+#var cheese_label := Label.new()
+#var ketchup_label := Label.new()
+#var bun_label := Label.new()
+
+var burger_needs_patty = true
+var burger_needs_lettuce = false
+var burger_needs_tomato = false
+var burger_needs_cheese = false
+var burger_needs_ketchup = false
+var burger_needs_bun = true
+
+func _ready():
+#	patty_label.text = \"Patty\"
+#	HUD_order.add_child(patty_label)
+	if randf() <= 0.50:
+		burger_needs_lettuce = true
+#		lettuce_label.text = \"Lettuce\"
+#		HUD_order.add_child(lettuce_label)
+		burger_lettuce.emit()
+	if randf() <= 0.10:
+		burger_needs_tomato = true
+#		tomato_label.text = \"Tomato\"
+#		HUD_order.add_child(tomato_label)
+		burger_tomato.emit()
+	if randf() <= 0.75:
+		burger_needs_cheese = true
+#		cheese_label.text = \"Cheese\"
+#		HUD_order.add_child(cheese_label)
+		burger_cheese.emit()
+	if randf() <= 0.45:
+		burger_needs_ketchup = true
+#		ketchup_label.text = \"Ketchup\"
+#		HUD_order.add_child(ketchup_label)
+		burger_ketchup.emit()
+#	bun_label.text = \"Bun\"
+#	HUD_order.add_child(bun_label)
+
+func is_order_correct():
+	if $\"BurgerPatty\".visible == true and burger_needs_patty == true:
+		print('Patty is Correct')
+	if $\"BurgerPatty\".visible == false and burger_needs_patty == true:
+		print('Patty is Missing')
+	if $\"CutLettuce\".visible == true and burger_needs_lettuce == true:
+		print('Lettuce is Correct')
+	if $\"CutLettuce\".visible == true and burger_needs_lettuce == false:
+		print('Lettuce is inorrect')
+	if $\"CutLettuce\".visible == false and burger_needs_lettuce == true:
+		print('Lettuce is Missing')
+	if $\"CutTomato\".visible == true and burger_needs_tomato == true:
+		print('Tomato is Correct')
+	if $\"CutTomato\".visible == true and burger_needs_tomato == false:
+		print('Tomato is Incorrect')
+	if $\"CutTomato\".visible == false and burger_needs_tomato == true:
+		print('Tomato is Missing')
+	if $\"CutCheese\".visible == true and burger_needs_cheese == true:
+		print('Cheese is Correct')
+	if $\"CutCheese\".visible == true and burger_needs_cheese == false:
+		print('Cheese is Incorrect')
+	if $\"CutCheese\".visible == false and burger_needs_cheese == true:
+		print('Cheese is Missing')
+	if $\"Ketchup\".visible == true and burger_needs_ketchup == true:
+		print('Ketchup is Correct')
+	if $\"Ketchup\".visible == true and burger_needs_ketchup == false:
+		print('Ketchup is Incorrect')
+	if $\"Ketchup\".visible == false and burger_needs_ketchup == true:
+		print('Ketchup is Missing')
+	if $\"TopBun\".visible == true and burger_needs_bun == true:
+		print('Bun is Correct')
+	if $\"TopBun\".visible == false and burger_needs_bun == true:
+		print('Bun is Missing')
+	print('')
 "
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_up6mj"]
@@ -28,26 +110,76 @@ albedo_color = Color(0.298039, 0.737255, 0, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_dr15c"]
 size = Vector3(0.4, 0.1, 0.4)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4llgu"]
+albedo_color = Color(0.8, 0, 0.196078, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_h2nfw"]
+size = Vector3(0.4, 0.05, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5425s"]
+albedo_color = Color(1, 0.631373, 0.137255, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ef0sk"]
+size = Vector3(0.5, 0.05, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7bflt"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_c2bmh"]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 0.01
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1hnee"]
+albedo_color = Color(0.588235, 0.34902, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sokpm"]
+size = Vector3(0.75, 0.25, 0.75)
+
 [node name="Burger" type="RigidBody3D" groups=["burger"]]
-inertia = Vector3(9.22337e+18, 9.22337e+18, 9.22337e+18)
+lock_rotation = true
 script = SubResource("GDScript_u2x1p")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="BottomBun" type="MeshInstance3D" parent="."]
 material_override = SubResource("StandardMaterial3D_up6mj")
 mesh = SubResource("BoxMesh_r1xmg")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_j4s7e")
 
-[node name="Burger Patty" type="MeshInstance3D" parent="."]
+[node name="BurgerPatty" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.175, 0)
 visible = false
 material_override = SubResource("StandardMaterial3D_xr01h")
 mesh = SubResource("BoxMesh_ky4pw")
 skeleton = NodePath("")
 
-[node name="Cut Lettuce" type="MeshInstance3D" parent="."]
+[node name="CutLettuce" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24657, 0)
 visible = false
 material_override = SubResource("StandardMaterial3D_ow5fh")
 mesh = SubResource("BoxMesh_dr15c")
+
+[node name="CutTomato" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.320532, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_4llgu")
+mesh = SubResource("BoxMesh_h2nfw")
+
+[node name="CutCheese" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.366771, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_5425s")
+mesh = SubResource("BoxMesh_ef0sk")
+
+[node name="Ketchup" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.390082, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_7bflt")
+mesh = SubResource("CylinderMesh_c2bmh")
+
+[node name="TopBun" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.515565, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_1hnee")
+mesh = SubResource("BoxMesh_sokpm")
